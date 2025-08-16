@@ -3,6 +3,35 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Vanilla CSS conversion of Tailwind shimmer */
+@keyframes shimmer {
+   from {
+      background-position: 0 0;
+   }
+   to {
+      background-position: -200% 0;
+   }
+}
+
+.shimmer {
+   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+   background-size: 200% 100%;
+   animation: shimmer 2s linear infinite;
+}
+
+@keyframes rainbow {
+   0% {
+      background-position: 0%;
+   }
+   100% {
+      background-position: 200%;
+   }
+}
+
+.animate-rainbow {
+   animation: rainbow 7s linear infinite;
+}
+
 @theme inline {
    --animate-gradient: gradient 8s linear infinite;
 
@@ -62,13 +91,44 @@
 
    --color-color-2: var(--color-2);
 
-   --color-color-1: var(--color-1)
+   --color-color-1: var(--color-1);
+   @keyframes rainbow {
+      0% {
+         background-position: 0%;
+      }
+      100% {
+         background-position: 200%;
+      }
+   }
+   --animate-aurora: aurora 8s ease-in-out infinite alternate
 ;
-  @keyframes rainbow {
+  @keyframes aurora {
   0% {
-    background-position: 0%;}
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+      }
+  25% {
+    background-position: 50% 100%;
+    transform: rotate(5deg) scale(1.1);
+      }
+  50% {
+    background-position: 100% 50%;
+    transform: rotate(-3deg) scale(0.95);
+      }
+  75% {
+    background-position: 50% 0%;
+    transform: rotate(3deg) scale(1.05);
+      }
   100% {
-    background-position: 200%;}}}
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+      }
+   }
+  @keyframes gradient {
+  to {
+    background-position: var(--bg-size, 300%) 0;
+      }
+   }}
 
 body {
    font-family: var(--font-sans);
