@@ -1,4 +1,5 @@
-import { Poppins, Roboto_Mono, Playfair_Display } from "next/font/google"; import type { Metadata } from "next";
+import { Poppins, Roboto_Mono, Playfair_Display } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 
 // Fonts
@@ -20,15 +21,14 @@ export const playfair = Playfair_Display({
   variable: "--font-heading",
 });
 
-
 // SEO Metadata
 export const metadata: Metadata = {
   title: {
-    default: "TechSphere Blog | Insights, Guides & Tutorials",
-    template: "%s | TechSphere Blog",
+    default: "Zenith Blog | Insights, Guides & Tutorials",
+    template: "%s | Zenith Blog",
   },
   description:
-    "TechSphere is your go-to blog for web development, programming tips, and tech insights. Stay updated with tutorials, guides, and industry trends.",
+    "Zenith is your go-to blog for web development, programming tips, and tech insights. Stay updated with tutorials, guides, and industry trends.",
   keywords: [
     "blog",
     "web development",
@@ -42,16 +42,23 @@ export const metadata: Metadata = {
     "backend",
   ],
   creator: "Fozo Team",
-  publisher: "TechSphere"
+  publisher: "Zenith",
 };
+
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="alternate icon" type="image/png" href="/favicon.png" />
+      </head>
       <body
         className={`${poppins.variable} ${robotoMono.variable} ${playfair.variable} antialiased`}
       >
@@ -60,4 +67,3 @@ export default function RootLayout({
     </html>
   );
 }
-

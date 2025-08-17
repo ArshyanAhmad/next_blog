@@ -31,6 +31,30 @@
 .animate-rainbow {
    animation: rainbow 7s linear infinite;
 }
+@keyframes animatedGradient {
+   0% {
+      background-position: 0% 50%;
+   }
+   50% {
+      background-position: 100% 50%;
+   }
+   100% {
+      background-position: 0% 50%;
+   }
+}
+
+.animate-animatedGradient {
+   background: linear-gradient(
+      270deg,
+      #ff0080,
+      #7928ca,
+      #0070f3,
+      #38bdf8,
+      #ff0080
+   );
+   background-size: 600% 600%;
+   animation: animatedGradient 8s ease infinite;
+}
 
 @theme inline {
    --animate-gradient: gradient 8s linear infinite;
@@ -100,35 +124,35 @@
          background-position: 200%;
       }
    }
-   --animate-aurora: aurora 8s ease-in-out infinite alternate
-;
-  @keyframes aurora {
-  0% {
-    background-position: 0% 50%;
-    transform: rotate(-5deg) scale(0.9);
+   --animate-aurora: aurora 8s ease-in-out infinite alternate;
+   @keyframes aurora {
+      0% {
+         background-position: 0% 50%;
+         transform: rotate(-5deg) scale(0.9);
       }
-  25% {
-    background-position: 50% 100%;
-    transform: rotate(5deg) scale(1.1);
+      25% {
+         background-position: 50% 100%;
+         transform: rotate(5deg) scale(1.1);
       }
-  50% {
-    background-position: 100% 50%;
-    transform: rotate(-3deg) scale(0.95);
+      50% {
+         background-position: 100% 50%;
+         transform: rotate(-3deg) scale(0.95);
       }
-  75% {
-    background-position: 50% 0%;
-    transform: rotate(3deg) scale(1.05);
+      75% {
+         background-position: 50% 0%;
+         transform: rotate(3deg) scale(1.05);
       }
-  100% {
-    background-position: 0% 50%;
-    transform: rotate(-5deg) scale(0.9);
+      100% {
+         background-position: 0% 50%;
+         transform: rotate(-5deg) scale(0.9);
       }
    }
-  @keyframes gradient {
-  to {
-    background-position: var(--bg-size, 300%) 0;
+   @keyframes gradient {
+      to {
+         background-position: var(--bg-size, 300%) 0;
       }
-   }}
+   }
+}
 
 body {
    font-family: var(--font-sans);

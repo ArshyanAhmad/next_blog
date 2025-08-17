@@ -51,7 +51,6 @@ export function TopNavbar() {
                             <Link
                                 href="https://github.com/ArshyanAhmad"
                                 target="_blank"
-                                rel="noopener noreferrer"
                             >
                                 <svg
                                     width="20"
@@ -70,9 +69,11 @@ export function TopNavbar() {
                             </Link>
                         </NavbarButton>
 
-                        <RainbowButton variant="default">
-                            <Link href={'/login'}>Signin</Link>
-                        </RainbowButton>
+                        <Link href={"/login"}>
+                            <RainbowButton variant="default">
+                                Signin
+                            </RainbowButton>
+                        </Link>
 
                     </div>
                 </NavBody>
@@ -126,3 +127,31 @@ export function TopNavbar() {
         </div>
     );
 }
+
+
+
+/*
+
+Summary
+
+blog application user can see and write their articles 
+user post the articles and see the resources that i will provide their in future
+article also come from their api like dev.to or another feed 
+user can comment on other article and also like that article 
+
+user can signin for their resources what i will provide and signup
+
+tech what i used here 
+next js react js tailwind css typescript prisma as orm and postgres as database next-auth as for authentication i using motion for an animation
+
+
+
+project overview (what have done until now 20 % only)
+
+good animation good looking UI created 
+signin page 
+signup page 
+home page UI
+
+
+*/
