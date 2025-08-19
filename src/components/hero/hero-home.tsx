@@ -77,10 +77,10 @@ function HeroHome() {
                         }}
                     />
                     🎉 <hr className="mx-2 h-4 w-px shrink-0 bg-neutral-500" />
-                    {/* AnimatedGradientText can also have animate-blink or animate-pulse for extra effect */}
                     <AnimatedGradientText className="text-sm font-medium animate-pulse">
                         Explore Top Tech Stories
                     </AnimatedGradientText>
+
                     <ChevronRight
                         className="ml-1 size-4 stroke-neutral-500 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5"
                     />
@@ -88,8 +88,7 @@ function HeroHome() {
 
 
 
-                <section className="relative z-10 flex flex-col items-center justify-center w-full min-h-[60vh] px-4 py-12">
-                    {/* 1. Animated Heading */}
+                <section className="relative z-10 flex flex-col items-center justify-center w-full min-h-[60vh] px-4 py-8">
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -99,7 +98,7 @@ function HeroHome() {
                         Where Ideas Meet Innovation and <AuroraText>Expertise</AuroraText>
                     </motion.h1>
 
-                    {/* 2. Animated Paragraph */}
+
                     <motion.p
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}

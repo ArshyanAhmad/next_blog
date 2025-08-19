@@ -24,11 +24,11 @@ export const playfair = Playfair_Display({
 // SEO Metadata
 export const metadata: Metadata = {
   title: {
-    default: "Zenith Blog | Insights, Guides & Tutorials",
-    template: "%s | Zenith Blog",
+    default: "Smart Scroll Blog | Insights, Guides & Tutorials",
+    template: "%s | Smart Scroll Blog",
   },
   description:
-    "Zenith is your go-to blog for web development, programming tips, and tech insights. Stay updated with tutorials, guides, and industry trends.",
+    "Smart Scroll is your go-to blog for web development, programming tips, and tech insights. Stay updated with tutorials, guides, and industry trends.",
   keywords: [
     "blog",
     "web development",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     "backend",
   ],
   creator: "Fozo Team",
-  publisher: "Zenith",
+  publisher: "Smart Scroll",
 };
 
 

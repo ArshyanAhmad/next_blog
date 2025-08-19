@@ -1,12 +1,15 @@
 "use client";
+
 import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Heading from "../main-heading";
 
 export function BlogCategorySection() {
+    // selectedCategory work as a variable
     const [selectedCategory, setSelectedCategory] = useState("All");
 
+    // Show all the buttons with theses categories
     const categories = ["All", "React", "TypeScript", "Node.js"];
 
     const allBlogItems = [
@@ -69,7 +72,6 @@ export function BlogCategorySection() {
     ];
 
 
-    // Filter blog items by selected category
     const filteredItems =
         selectedCategory === "All"
             ? allBlogItems
@@ -82,14 +84,14 @@ export function BlogCategorySection() {
                 text="Select a category to see more related content"
             />
 
-            <div className="flex flex-wrap justify-center pt-2 gap-6 mb-15">
+            <div className="flex flex-wrap justify-center pt-2 gap-5 mb-15">
                 {categories.map((category) => (
                     <button
                         key={category}
                         onClick={() => setSelectedCategory(category)}
                         className={cn(
                             "rounded-full text-base font-semibold transition-all duration-300 ease-in-out select-none",
-                            "flex items-center justify-center w-34 h-12 border-2",
+                            "flex items-center justify-center w-32 h-12 border-2",
                             selectedCategory === category
                                 ? "text-white shadow-xl scale-110 border-transparent animate-animatedGradient"
                                 : "border-gray-300 bg-white text-gray-700 hover:bg-gray-100 hover:text-gray-900"
