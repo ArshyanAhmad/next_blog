@@ -1,11 +1,11 @@
 
-import { cn } from "@/lib/utils"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-
 import { AnimatedGradientText } from "./ui/gradient-text"
 import { RainbowButton } from "./magicui/rainbow-button"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 import Link from "next/link"
+
 
 export function SignupForm({
   className,

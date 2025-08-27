@@ -4,6 +4,7 @@ import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Heading from "../main-heading";
+import { RainbowButton } from "../magicui/rainbow-button";
 
 export function BlogCategorySection() {
     // selectedCategory work as a variable
@@ -78,7 +79,7 @@ export function BlogCategorySection() {
             : allBlogItems.filter((item) => item.category === selectedCategory);
 
     return (
-        <section className="max-w-6xl  mx-auto md:grid-cols-3 py-10">
+        <section className="max-w-6xl mx-auto md:grid-cols-3 py-10">
             <Heading
                 h1="Browse by Category"
                 text="Select a category to see more related content"
@@ -113,6 +114,21 @@ export function BlogCategorySection() {
                     />
                 ))}
             </BentoGrid>
+
+            <div className="mt-15 flex items-center justify-center">
+                <RainbowButton
+                    type="submit"
+                    variant={"outline"}
+                    className={cn(
+                        "rounded-full text-base font-semibold transition-all duration-300 ease-in-out select-none",
+                        "flex items-center justify-center  w-55 rounded-lg transform py-5 hover:-translate-y-0.5  border-2  text-white shadow-xl scale-110 border-transparent animate-animatedGradient",
+                    )}
+                >
+
+                    All Blogs
+                </RainbowButton>
+            </div>
+
         </section>
     );
 }
