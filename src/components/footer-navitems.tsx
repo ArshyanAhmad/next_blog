@@ -7,14 +7,14 @@ export default function FooterNav() {
     const [hovered, setHovered] = React.useState<number | null>(null);
 
     return (
-        <nav className="relative flex space-x-8 text-sm font-medium">
+        <nav className="relative flex space-x-3 text-sm font-medium">
             {links.map((link, idx) => (
                 <a
                     key={idx}
                     href="#"
                     onMouseEnter={() => setHovered(idx)}
                     onMouseLeave={() => setHovered(null)}
-                    className="relative px-4 py-2 text-neutral-700 dark:text-neutral-300"
+                    className="relative px-2 py-2 text-neutral-500 dark:text-neutral-300"
                 >
                     {hovered === idx && (
                         <motion.div

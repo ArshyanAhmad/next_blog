@@ -36,7 +36,7 @@ const Newsletter = () => {
         <section>
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-8">
             <div>
-              <h2 className="text-2xl md:text-4xl text-black font-bold mb-3">
+              <h2 className="text-2xl md:text-4xl text-black font-bold pb-5">
                 Subscribe to Newsletter
               </h2>
               <p className="mb-6 text-sm text-gray-600">
@@ -48,13 +48,16 @@ const Newsletter = () => {
 
             <form className="flex flex-col sm:flex-row items-center w-100 justify-center gap-4">
 
-              <input type="email"
+              <input
+                type="email"
                 placeholder="Enter your email"
-                className="w-full sm:w-auto flex-1 px-4 py-3 rounded-md text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white"
-                required
+                className="w-full sm:w-auto flex-1 h-[44px] px-4 rounded-md text-black 
+             border border-gray-200 bg-white
+             focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300"
               />
 
-              <RainbowButton type="submit" className="py-5">
+
+              <RainbowButton type="submit" className="h-[44px] px-5">
                 Subscribe
               </RainbowButton>
 

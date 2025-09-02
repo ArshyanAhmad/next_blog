@@ -43,8 +43,6 @@ export function HeroSection() {
 
 
         </div>
-
-
     );
 }
 
