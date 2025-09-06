@@ -19,11 +19,11 @@ export function TopNavbar() {
     const navItems = [
         {
             name: "Home",
-            link: "#home",
+            link: "/",
         },
         {
             name: "Blogs",
-            link: "#blogs",
+            link: "/blogs",
         },
         {
             name: "Docs",
@@ -69,12 +69,11 @@ export function TopNavbar() {
                             </Link>
                         </NavbarButton>
 
-                        <Link href={"/login"}>
+                        <Link href="/login" passHref>
                             <RainbowButton variant="default">
                                 Signin
                             </RainbowButton>
                         </Link>
-
                     </div>
                 </NavBody>
 
@@ -93,25 +92,31 @@ export function TopNavbar() {
                         onClose={() => setIsMobileMenuOpen(false)}
                     >
                         {navItems.map((item, idx) => (
-                            <a
+
+                            <Link
                                 key={`mobile-link-${idx}`}
                                 href={item.link}
-                                onClick={() => setIsMobileMenuOpen(false)}
                                 className="relative text-neutral-600 dark:text-neutral-300"
                             >
-                                <span className="block">{item.name}</span>
-                            </a>
+                                <span
+                                    className="block"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    {item.name}
+                                </span>
+                            </Link>
                         ))}
                         <div className="flex w-full flex-col gap-4">
-                            <NavbarButton
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                variant="primary"
-                                className="w-full"
-                            >
-                                <Link href={'/login'}>
+                            <Link href="/login" passHref>
+                                <NavbarButton
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    variant="primary"
+                                    className="w-full"
+                                >
                                     Login
-                                </Link>
-                            </NavbarButton>
+                                </NavbarButton>
+                            </Link>
+
                             <NavbarButton
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 variant="primary"

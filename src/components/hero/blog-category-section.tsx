@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Heading from "../main-heading";
 import { RainbowButton } from "../magicui/rainbow-button";
+import Link from "next/link";
 
 export function BlogCategorySection() {
     // selectedCategory work as a variable
@@ -116,17 +117,19 @@ export function BlogCategorySection() {
             </BentoGrid>
 
             <div className="mt-15 flex items-center justify-center">
-                <RainbowButton
-                    type="submit"
-                    variant={"outline"}
-                    className={cn(
-                        "rounded-full text-base font-semibold transition-all duration-300 ease-in-out select-none",
-                        "flex items-center justify-center  w-55 rounded-lg transform py-5 hover:-translate-y-0.5  border-2  text-white shadow-xl scale-110 border-transparent animate-animatedGradient",
-                    )}
-                >
+                <Link href={"/blogs"} >
+                    <RainbowButton
+                        type="submit"
+                        variant={"outline"}
+                        className={cn(
+                            "rounded-full text-base font-semibold transition-all duration-300 ease-in-out select-none",
+                            "flex items-center justify-center  w-55 rounded-lg transform py-5 hover:-translate-y-0.5  border-2  text-white shadow-xl scale-110 border-transparent animate-animatedGradient",
+                        )}
+                    >
 
-                    All Blogs
-                </RainbowButton>
+                        All Blogs
+                    </RainbowButton>
+                </Link>
             </div>
 
         </section>

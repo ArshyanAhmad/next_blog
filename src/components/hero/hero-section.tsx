@@ -1,10 +1,10 @@
-import { BlogGrid } from "./blog-grid";
-import Heading from "../main-heading";
-import HeroHome from "./hero-home";
 import { BlogCategorySection } from "./blog-category-section";
 import { TopAuthors } from "./marque-testimonial";
 import Newsletter from "../newsletter-section";
 import Footer from "../footer-section";
+import { BlogGrid } from "./blog-grid";
+import Heading from "../main-heading";
+import HeroHome from "./hero-home";
 
 
 export function HeroSection() {
