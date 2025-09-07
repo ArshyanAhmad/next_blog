@@ -14,13 +14,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id       String   @id @default(cuid())
+  id       String    @id @default(cuid())
   name     String?
-  email    String?  @unique
+  email    String?   @unique
+  password String
   image    String?
-  role     Role     @default(USER)
+  role     Role      @default(USER)
   posts    Post[]
   comments Comment[]
 }
@@ -37,20 +37,20 @@ model Category {
 }
 
 model Post {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   title      String
-  slug       String   @unique
+  slug       String    @unique
   content    String
   excerpt    String?
   coverImage String?
-  published  Boolean  @default(false)
+  published  Boolean   @default(false)
   authorId   String
-  author     User     @relation(fields: [authorId], references: [id])
+  author     User      @relation(fields: [authorId], references: [id])
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
   comments   Comment[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Comment {
@@ -62,5 +62,3 @@ model Comment {
   author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
 }
-
-
