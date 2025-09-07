@@ -2,11 +2,12 @@
 
 import React, { useState, useRef, useCallback } from "react";
 import { IconClipboardCopy, IconFileBroken, IconSignature, IconTableColumn } from "@tabler/icons-react";
-import Heading from "./main-heading";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Heading from "@/components/main-heading";
+import { Button } from "@/components/ui/button";
 
-// Full list of items (blog posts)
+// Updated full list of blog posts with consistent categories
 const allItems = [
     {
         title: "Building Performant Web Apps with React",
@@ -62,7 +63,7 @@ const allItems = [
     },
     {
         title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
+        category: "React",
         description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
         header: (
             <img
@@ -88,7 +89,7 @@ const allItems = [
     },
     {
         title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
+        category: "React",
         description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
         header: (
             <img
@@ -101,7 +102,7 @@ const allItems = [
     },
     {
         title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
+        category: "Python",
         description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
         header: (
             <img
@@ -114,7 +115,7 @@ const allItems = [
     },
     {
         title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
+        category: "Python",
         description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
         header: (
             <img
@@ -127,7 +128,7 @@ const allItems = [
     },
     {
         title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
+        category: "Rust",
         description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
         header: (
             <img
@@ -138,139 +139,91 @@ const allItems = [
         ),
         icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
     },
-    {
-        title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
-        description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
-        header: (
-            <img
-                src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
-                alt="Abstract routing concept with intersection roads"
-                className="w-full h-full object-cover rounded-xl"
-            />
-        ),
-        icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
-    },
-    {
-        title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
-        description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
-        header: (
-            <img
-                src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
-                alt="Abstract routing concept with intersection roads"
-                className="w-full h-full object-cover rounded-xl"
-            />
-        ),
-        icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
-    },
-    {
-        title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
-        description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
-        header: (
-            <img
-                src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
-                alt="Abstract routing concept with intersection roads"
-                className="w-full h-full object-cover rounded-xl"
-            />
-        ),
-        icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
-    },
-    {
-        title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
-        description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
-        header: (
-            <img
-                src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
-                alt="Abstract routing concept with intersection roads"
-                className="w-full h-full object-cover rounded-xl"
-            />
-        ),
-        icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
-    },
-    {
-        title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
-        description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
-        header: (
-            <img
-                src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
-                alt="Abstract routing concept with intersection roads"
-                className="w-full h-full object-cover rounded-xl"
-            />
-        ),
-        icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
-    },
-    {
-        title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
-        description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
-        header: (
-            <img
-                src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
-                alt="Abstract routing concept with intersection roads"
-                className="w-full h-full object-cover rounded-xl"
-            />
-        ),
-        icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
-    },
-    {
-        title: "Next.js Routing: Static and Dynamic Pages Explained",
-        category: "Next.js",
-        description: "Master routing in Next.js, from basic static pages to advanced dynamic routes and API endpoints.",
-        header: (
-            <img
-                src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
-                alt="Abstract routing concept with intersection roads"
-                className="w-full h-full object-cover rounded-xl"
-            />
-        ),
-        icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
-    },
-
+    // You can duplicate or add more posts with relevant categories as needed
 ];
 
 const ITEMS_PER_PAGE = 4;
 
 export default function BlogPosts() {
-    const [displayItems, setDisplayItems] = useState(allItems.slice(0, ITEMS_PER_PAGE));
+
+    const categories = [
+        "All",
+        "React",
+        "TypeScript",
+        "Node.js",
+        "JavaScript",
+        "Python",
+        "Go",
+        "Rust",
+        "DevOps",
+        "Cloud",
+        "Frontend",
+        "Backend",
+        "Tech News",
+        "Next.js",
+    ];
+
+    // State for selected categories, default to 'All'
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(["All"]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
-
     const observer = useRef<IntersectionObserver | null>(null);
 
+    // Filter posts based on selected categories; show all if 'All' selected
+    const filteredItems = selectedCategories.includes("All")
+        ? allItems
+        : allItems.filter((post) => selectedCategories.includes(post.category));
+
+    // Posts visible per pagination page
+    const visibleItems = filteredItems.slice(0, page * ITEMS_PER_PAGE);
+
+    // Infinite scroll to load more items
     const lastElementRef = useCallback(
         (node: HTMLElement | null) => {
-            if (loading) return; // Avoid observing while loading
-
+            if (loading) return;
             if (observer.current) observer.current.disconnect();
-
-            observer.current = new IntersectionObserver(entries => {
+            observer.current = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) {
                     loadMoreItems();
                 }
             });
-
             if (node) observer.current.observe(node);
         },
-        [loading, displayItems]
+        [loading, visibleItems]
     );
 
     const loadMoreItems = () => {
         if (loading) return;
-        if (page * ITEMS_PER_PAGE >= allItems.length) return; // All posts loaded
-
+        if (page * ITEMS_PER_PAGE >= filteredItems.length) return;
         setLoading(true);
-
-        // Simulate async fetching (or replace with real API call)
         setTimeout(() => {
-            const nextPage = page + 1;
-            setDisplayItems(allItems.slice(0, nextPage * ITEMS_PER_PAGE));
-            setPage(nextPage);
+            setPage(page + 1);
             setLoading(false);
         }, 700);
+    };
+
+    // Handle category toggling on button click
+    const handleCategoryClick = (category: string) => {
+        if (category === "All") {
+            // Clicking 'All' resets any other filters
+            setSelectedCategories(["All"]);
+            setPage(1);
+        } else {
+            if (selectedCategories.includes("All")) {
+                // Remove 'All' and select the clicked category
+                setSelectedCategories([category]);
+                setPage(1);
+            } else if (selectedCategories.includes(category)) {
+                // Deselect category; if none left, revert to 'All'
+                const newCategories = selectedCategories.filter((c) => c !== category);
+                setSelectedCategories(newCategories.length === 0 ? ["All"] : newCategories);
+                setPage(1);
+            } else {
+                // Add a new category to selection
+                setSelectedCategories([...selectedCategories, category]);
+                setPage(1);
+            }
+        }
     };
 
     return (
@@ -280,9 +233,29 @@ export default function BlogPosts() {
                 text="Explore practical guides, expert tips, and industry news for developers of all skill levels."
             />
 
-            <BentoGrid className="max-w-6xl mx-auto md:grid-cols-3 gap-6">
-                {displayItems.map((item, i) => {
-                    const isLastElement = i === displayItems.length - 1;
+            {/* Category Buttons */}
+            <div className="flex items-center justify-center m-auto w-4xl flex-wrap gap-5 mb-10">
+                {categories.map((category) => (
+                    <Button
+                        key={category}
+                        variant={selectedCategories.includes(category) ? "default" : "outline"}
+                        size="lg"
+                        className={cn(
+                            "cursor-pointer transition",
+                            selectedCategories.includes(category) &&
+                            "bg-blue-600 text-white dark:bg-blue-400 dark:text-black"
+                        )}
+                        onClick={() => handleCategoryClick(category)}
+                    >
+                        {category}
+                    </Button>
+                ))}
+            </div>
+
+            {/* Blog Posts Grid */}
+            <BentoGrid className="max-w-6xl mt-10 mx-auto  md:grid-cols-3 gap-6">
+                {visibleItems.map((item, i) => {
+                    const isLastElement = i === visibleItems.length - 1;
                     return (
                         <BentoGridItem
                             key={i}
