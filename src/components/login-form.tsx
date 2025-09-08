@@ -1,17 +1,72 @@
-import { cn } from "@/lib/utils";
+'use client'
+
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { AnimatedGradientText } from "./ui/gradient-text";
+import { toast, ToastContainer } from "react-toastify";
+import { SigninInput } from "@/types/user.types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AnimatedGradientText } from "./ui/gradient-text";
-import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { useRouter } from "next/navigation";
+import { BACKEND_URL } from "@/app/config";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
+import axios from "axios";
+import React from "react"
 
 export function LoginForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
+
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+
+    const [form, setForm] = useState<SigninInput>({ email: "", password: "" });
+
+
+    const sendRequest = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!form.password || !form.email) {
+            toast.error("Please provide all credentials");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const res = await axios.post(`${BACKEND_URL}/api/users/signin`, form);
+
+            const data = res.data;
+            console.log(data);
+
+            if (res.data.success) {
+
+                toast.success("Login successfully!");
+                setForm({ email: "", password: "" });
+                router.push("/");
+
+            } else {
+                toast.error("Login failed. Try again.")
+            }
+
+        } catch (error: any) {
+
+            toast.error("Something went wrong")
+            console.error("Error: ", error.message);
+
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
-            <form>
+            <ToastContainer />
+
+            <form onSubmit={sendRequest}>
+
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col items-center gap-2">
                         <a
@@ -45,6 +100,13 @@ export function LoginForm({
                                 type="email"
                                 placeholder="name@example.com"
                                 required
+                                value={form.email}
+                                onChange={(e) => {
+                                    setForm({
+                                        ...form,
+                                        email: e.target.value,
+                                    });
+                                }}
                             />
 
                             <Label htmlFor="password">Password</Label>
@@ -53,10 +115,17 @@ export function LoginForm({
                                 type="password"
                                 placeholder="password"
                                 required
+                                value={form.password}
+                                onChange={(e) => {
+                                    setForm({
+                                        ...form,
+                                        password: e.target.value,
+                                    });
+                                }}
                             />
                         </div>
                         <RainbowButton type="submit" className="w-full">
-                            Login
+                            {loading ? "Login Up..." : "Login"}
                         </RainbowButton>
                     </div>
                     <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

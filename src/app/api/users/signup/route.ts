@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { PrismaClient } from "@/generated/prisma";
 import { signupInput } from "@/types/user.types";
 import jwt from "jsonwebtoken";
@@ -27,8 +27,6 @@ export async function POST(req: Request) {
                 message: errorMessage
             }, { status: 400 })
         }
-
-        console.log(username, "Email", email, password);
 
         const userExist = await prisma.user.findUnique({
             where: { email }
