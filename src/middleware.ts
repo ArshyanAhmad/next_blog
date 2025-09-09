@@ -13,22 +13,22 @@ export async function middleware(req: NextRequest) {
 
     const pathname = new URL(url).pathname;
 
-    // if (!token) {
+    if (!token) {
 
-    //     if (pathname.startsWith(blogPage)) {
-    //         return NextResponse.redirect(new URL(loginPage, url))
-    //     }
+        if (pathname.startsWith(blogPage)) {
+            return NextResponse.redirect(new URL(loginPage, url))
+        }
 
-    //     return NextResponse.next();
+        return NextResponse.next();
 
-    // }
+    }
 
-    // console.log("Token", token);
+    console.log("Token", token);
 
-    // If user is logged in and tries to access login page, redirect to blog/home
-    // if (token && pathname === loginPage) {
-    //     return NextResponse.redirect(new URL(homePage, url));
-    // }
+    // If user is logged in and tries to access login page, redirect to blog / home
+    if (token && pathname === loginPage) {
+        return NextResponse.redirect(new URL(homePage, url));
+    }
 
     return NextResponse.next();
 
