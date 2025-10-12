@@ -26,7 +26,7 @@ export function HeroSection() {
             </div>
 
 
-            <div className="  max-w-7xl mx-auto pb-5 ">
+            <div className="max-w-7xl mx-auto pb-5 ">
 
                 <Heading
                     h1="Top Authors"

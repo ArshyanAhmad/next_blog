@@ -82,7 +82,7 @@ export function BlogCategorySection() {
     return (
         <section className="max-w-6xl mx-auto md:grid-cols-3 py-10">
             <Heading
-                h1="Browse by Category"
+                h1="Hell by Category"
                 text="Select a category to see more related content"
             />
 

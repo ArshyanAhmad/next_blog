@@ -23,7 +23,6 @@ export async function middleware(req: NextRequest) {
 
     }
 
-    console.log("Token", token);
 
     // If user is logged in and tries to access login page, redirect to blog / home
     if (token && pathname === loginPage) {
@@ -35,5 +34,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/blogs/:path*", "/login"]
+    matcher: ["/blogs/:path*", "/login", "/signup"],
 }

@@ -67,7 +67,7 @@ export async function POST(req: Request) {
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, { expiresIn: "1hr" });
 
         response.cookies.set({
-            name: "auth",
+            name: "authorization",
             value: `Bearer ${token}`,
             httpOnly: true,
             path: "/",

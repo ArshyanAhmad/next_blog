@@ -1,4 +1,5 @@
 "use client";
+
 import {
     Navbar,
     NavBody,
@@ -16,6 +17,7 @@ import { useState } from "react";
 import { RainbowButton } from "./magicui/rainbow-button";
 
 export function TopNavbar() {
+
     const navItems = [
         {
             name: "Home",
@@ -31,7 +33,7 @@ export function TopNavbar() {
         },
         {
             name: "Contact",
-            link: "#contact",
+            link: "/contact",
         },
     ];
 
@@ -48,10 +50,7 @@ export function TopNavbar() {
                     <div className="flex items-center gap-4">
 
                         <NavbarButton variant="secondary">
-                            <Link
-                                href="https://github.com/ArshyanAhmad"
-                                target="_blank"
-                            >
+                            <Link href="https://github.com/ArshyanAhmad" target="_blank">
                                 <svg
                                     width="20"
                                     viewBox="0 0 15 15"
@@ -107,15 +106,15 @@ export function TopNavbar() {
                             </Link>
                         ))}
                         <div className="flex w-full flex-col gap-4">
-                            <Link href="/login" passHref>
-                                <NavbarButton
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    variant="primary"
-                                    className="w-full"
-                                >
+                            <NavbarButton
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                variant="primary"
+                                className="w-full"
+                            >
+                                <Link href="/login" passHref>
                                     Login
-                                </NavbarButton>
-                            </Link>
+                                </Link>
+                            </NavbarButton>
 
                             <NavbarButton
                                 onClick={() => setIsMobileMenuOpen(false)}

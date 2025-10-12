@@ -57,7 +57,7 @@ export async function POST(req: Request) {
         }, { status: 200 });
 
         response.cookies.set({
-            name: "auth",
+            name: "authorization",
             value: `Bearer ${token}`,
             httpOnly: true,
             path: "/",
@@ -78,3 +78,4 @@ export async function POST(req: Request) {
         }, { status: 500 })
     }
 }
+
