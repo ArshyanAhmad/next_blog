@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import {
     Navbar,
     NavBody,
@@ -12,45 +13,38 @@ import {
     MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
 import Link from "next/link";
-
-import { useState } from "react";
 import { RainbowButton } from "./magicui/rainbow-button";
 
-export function TopNavbar() {
+interface TopNavbarProps {
+    isLoggedIn?: boolean;
+}
 
+export default function TopNavbar({ isLoggedIn }: TopNavbarProps) {
     const navItems = [
-        {
-            name: "Home",
-            link: "/",
-        },
-        {
-            name: "Blogs",
-            link: "/blogs",
-        },
-        {
-            name: "Docs",
-            link: "#docs",
-        },
-        {
-            name: "Contact",
-            link: "/contact",
-        },
+        { name: "Home", link: "/" },
+        { name: "Blogs", link: "/blogs" },
+        { name: "Docs", link: "#docs" },
+        { name: "Contact", link: "/contact" },
     ];
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    const handleLogout = async () => {
+        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL!}/api/logout`, { method: "POST" });
+        window.location.href = "/";
+    };
+
     return (
         <div className="relative w-full">
-
             <Navbar>
                 {/* Desktop Navigation */}
                 <NavBody>
                     <NavbarLogo />
                     <NavItems items={navItems} />
                     <div className="flex items-center gap-4">
-
-                        <NavbarButton variant="secondary">
-                            <Link href="https://github.com/ArshyanAhmad" target="_blank">
+                        {/* GitHub Button (same UI as original) */}
+                        <Link href="https://github.com/ArshyanAhmad" target="_blank">
+                            <NavbarButton variant="secondary">
                                 <svg
                                     width="20"
                                     viewBox="0 0 15 15"
@@ -65,14 +59,17 @@ export function TopNavbar() {
                                         clipRule="evenodd"
                                     />
                                 </svg>
-                            </Link>
-                        </NavbarButton>
-
-                        <Link href="/login" passHref>
-                            <RainbowButton variant="default">
-                                Signin
-                            </RainbowButton>
+                            </NavbarButton>
                         </Link>
+
+                        {/* Signin / Logout */}
+                        {isLoggedIn ? (
+                            <RainbowButton variant="default" onClick={handleLogout}>Logout</RainbowButton>
+                        ) : (
+                            <Link href="/login" passHref>
+                                <RainbowButton variant="default">Signin</RainbowButton>
+                            </Link>
+                        )}
                     </div>
                 </NavBody>
 
@@ -91,7 +88,6 @@ export function TopNavbar() {
                         onClose={() => setIsMobileMenuOpen(false)}
                     >
                         {navItems.map((item, idx) => (
-
                             <Link
                                 key={`mobile-link-${idx}`}
                                 href={item.link}
@@ -105,16 +101,30 @@ export function TopNavbar() {
                                 </span>
                             </Link>
                         ))}
+
                         <div className="flex w-full flex-col gap-4">
-                            <NavbarButton
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                variant="primary"
-                                className="w-full"
-                            >
+                            {isLoggedIn ? (
+                                <NavbarButton
+                                    variant="primary"
+                                    className="w-full"
+                                    onClick={() => {
+                                        handleLogout();
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                >
+                                    Logout
+                                </NavbarButton>
+                            ) : (
                                 <Link href="/login" passHref>
-                                    Login
+                                    <NavbarButton
+                                        variant="primary"
+                                        className="w-full"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Login
+                                    </NavbarButton>
                                 </Link>
-                            </NavbarButton>
+                            )}
 
                             <NavbarButton
                                 onClick={() => setIsMobileMenuOpen(false)}
@@ -127,9 +137,6 @@ export function TopNavbar() {
                     </MobileNavMenu>
                 </MobileNav>
             </Navbar>
-
         </div>
     );
 }
-
-
