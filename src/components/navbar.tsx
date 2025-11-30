@@ -64,7 +64,12 @@ export default function TopNavbar({ isLoggedIn }: TopNavbarProps) {
 
                         {/* Signin / Logout */}
                         {isLoggedIn ? (
-                            <RainbowButton variant="default" onClick={handleLogout}>Logout</RainbowButton>
+                            <div className="">
+                                <Link className="mr-3" href={'/blogs/create'}>
+                                    <RainbowButton variant="default">New Article</RainbowButton>
+                                </Link>
+                                <RainbowButton variant="default" onClick={handleLogout}>Logout</RainbowButton>
+                            </div>
                         ) : (
                             <Link href="/login" passHref>
                                 <RainbowButton variant="default">Signin</RainbowButton>

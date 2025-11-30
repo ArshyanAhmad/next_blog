@@ -22,6 +22,7 @@ export async function GET() {
 
         console.log("Categories fetched:", categories.length);
         return NextResponse.json({ success: true, categories });
+
     } catch (error: any) {
         console.error("Error fetching categories:", error);
         return NextResponse.json({
@@ -53,6 +54,7 @@ export async function POST(request: Request) {
             category,
             message: "Category created successfully"
         });
+
     } catch (error: any) {
         if (error.code === 'P2002') {
             return NextResponse.json({

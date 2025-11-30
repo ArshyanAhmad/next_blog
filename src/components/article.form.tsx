@@ -41,7 +41,7 @@ export function ArticleForm() {
             title: "",
             content: "",
             categories: [],
-            coverImage: undefined,
+            coverImage: []
         },
         mode: "onChange",
     })
@@ -69,6 +69,9 @@ export function ArticleForm() {
                     if (!uploadResult.success) throw new Error("Image upload failed")
 
                     imageUrl = uploadResult.url
+
+                    console.log("Image url is", imageUrl);
+
                 }
 
                 // Submit post to /api/posts with imageUrl
@@ -174,9 +177,19 @@ export function ArticleForm() {
                         <Label htmlFor="coverImage" className="text-lg font-semibold">Featured Image</Label>
                     </div>
                     <div className="space-y-2">
-                        <Input id="coverImage" type="file" accept="image/*" {...register("coverImage")} onChange={e => {
-                            const file = e.target.files?.[0]; if (file) setPreview(URL.createObjectURL(file));
-                        }} />
+
+                        <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                    setValue("coverImage", [file], { shouldValidate: true });
+                                    setPreview(URL.createObjectURL(file)); // preview
+                                }
+                            }}
+                        />
+
                         {preview && (
                             <div className="mt-2">
                                 <img src={preview} alt="Preview" className="max-h-48 rounded-md border object-cover" />

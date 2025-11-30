@@ -12,7 +12,6 @@ export function BlogCategorySection() {
     const [selectedCategory, setSelectedCategory] = useState("All");
 
     // Show all the buttons with theses categories
-    const categories = ["All", "React", "TypeScript", "Node.js"];
 
     const allBlogItems = [
         {
@@ -82,27 +81,9 @@ export function BlogCategorySection() {
     return (
         <section className="max-w-6xl mx-auto md:grid-cols-3 py-10">
             <Heading
-                h1="Hell by Category"
-                text="Select a category to see more related content"
+                h1="More Articles"
+                text="Discover blogs on programming, tools, frameworks, and trending technologies."
             />
-
-            <div className="flex flex-wrap justify-center pt-2 gap-5 mb-15">
-                {categories.map((category) => (
-                    <button
-                        key={category}
-                        onClick={() => setSelectedCategory(category)}
-                        className={cn(
-                            "rounded-full text-base font-semibold transition-all duration-300 ease-in-out select-none",
-                            "flex items-center justify-center w-32 h-12 border-2",
-                            selectedCategory === category
-                                ? "text-white shadow-xl scale-110 border-transparent animate-animatedGradient"
-                                : "border-gray-300 bg-white text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                        )}
-                    >
-                        {category}
-                    </button>
-                ))}
-            </div>
 
             <BentoGrid>
                 {filteredItems.map(({ id, title, description, header, icon }) => (

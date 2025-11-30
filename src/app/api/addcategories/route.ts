@@ -34,6 +34,7 @@ export async function POST(req: Request) {
             categories: createdCategories,
             message: "Categories inserted successfully",
         });
+
     } catch (error: any) {
         console.error(error);
         return NextResponse.json(
