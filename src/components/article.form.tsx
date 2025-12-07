@@ -24,7 +24,6 @@ import { cn } from "@/lib/utils"
 export function ArticleForm() {
     const [isPending, startTransition] = useTransition()
     const [submitMessage, setSubmitMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
-    const [preview, setPreview] = useState<string | null>(null)
 
     const { categories, loading: categoriesLoading, error: categoriesError, refetch } = useCategories()
 
@@ -41,40 +40,27 @@ export function ArticleForm() {
             title: "",
             content: "",
             categories: [],
-            coverImage: []
         },
         mode: "onChange",
     })
 
     const selectedCategories = watch("categories")
-
     const onSubmit = (data: ArticleFormData) => {
         startTransition(async () => {
             setSubmitMessage(null)
 
             try {
-                let imageUrl: string | undefined = undefined
+                // ⭐ FETCH RANDOM TECH IMAGE FROM UNSPLASH OFFICIAL API
+                const res = await fetch(
+                    `https://api.unsplash.com/photos/random?query=programming&client_id=${process.env.NEXT_PUBLIC_UNSPLASH_KEY}`
+                )
 
-                // Upload cover image to /api/upload first
-                if (data.coverImage && data.coverImage.length > 0) {
-                    const uploadData = new FormData()
-                    uploadData.append("file", data.coverImage[0])
+                const imgData = await res.json()
+                const imageUrl = imgData?.urls?.regular || ""  // fallback
 
-                    const uploadRes = await fetch("/api/upload", {
-                        method: "POST",
-                        body: uploadData,
-                    })
+                console.log("Unsplash Image Used:", imageUrl)
 
-                    const uploadResult = await uploadRes.json()
-                    if (!uploadResult.success) throw new Error("Image upload failed")
-
-                    imageUrl = uploadResult.url
-
-                    console.log("Image url is", imageUrl);
-
-                }
-
-                // Submit post to /api/posts with imageUrl
+                // ⭐ Submit post with Unsplash image
                 const response = await fetch("/api/posts", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -91,7 +77,6 @@ export function ArticleForm() {
                 if (result.success) {
                     setSubmitMessage({ type: "success", text: result.message || "Article published successfully!" })
                     reset()
-                    setPreview(null)
                 } else {
                     setSubmitMessage({ type: "error", text: result.message || "Failed to publish article" })
                 }
@@ -101,6 +86,7 @@ export function ArticleForm() {
             }
         })
     }
+
 
     if (categoriesLoading) {
         return (
@@ -165,37 +151,20 @@ export function ArticleForm() {
                         <Label htmlFor="title" className="text-lg font-semibold">Article Title</Label>
                     </div>
                     <div className="space-y-2">
-                        <Input id="title" {...register("title")} placeholder="Enter a compelling title for your article..." className={cn("text-lg h-12", errors.title && "border-destructive focus-visible:ring-destructive")} />
-                        {errors.title && <p className="text-sm text-destructive flex items-center gap-1"><span className="h-1 w-1 bg-destructive rounded-full" />{errors.title.message}</p>}
+                        <Input id="title" {...register("title")} placeholder="Enter a compelling title..." className={cn("text-lg h-12", errors.title && "border-destructive focus-visible:ring-destructive")} />
+                        {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
                     </div>
                 </div>
 
-                {/* Cover Image */}
+                {/* Featured Image (INFO ONLY, NO INPUT) */}
                 <div className="space-y-4">
                     <div className="flex items-center gap-2">
                         <ImageIcon className="h-5 w-5 text-primary" />
-                        <Label htmlFor="coverImage" className="text-lg font-semibold">Featured Image</Label>
+                        <Label className="text-lg font-semibold">Featured Image</Label>
                     </div>
-                    <div className="space-y-2">
-
-                        <Input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                    setValue("coverImage", [file], { shouldValidate: true });
-                                    setPreview(URL.createObjectURL(file)); // preview
-                                }
-                            }}
-                        />
-
-                        {preview && (
-                            <div className="mt-2">
-                                <img src={preview} alt="Preview" className="max-h-48 rounded-md border object-cover" />
-                            </div>
-                        )}
-                    </div>
+                    <p className="text-sm text-muted-foreground">
+                        A random tech-themed image from Unsplash will be used automatically.
+                    </p>
                 </div>
 
                 {/* Content */}
@@ -205,8 +174,8 @@ export function ArticleForm() {
                         <Label htmlFor="content" className="text-lg font-semibold">Article Content</Label>
                     </div>
                     <div className="space-y-2">
-                        <Textarea id="content" {...register("content")} placeholder="Write your article content here. Share your insights, experiences, and knowledge..." className={cn("min-h-[200px] text-base leading-relaxed resize-none", errors.content && "border-destructive focus-visible:ring-destructive")} />
-                        {errors.content && <p className="text-sm text-destructive flex items-center gap-1"><span className="h-1 w-1 bg-destructive rounded-full" />{errors.content.message}</p>}
+                        <Textarea id="content" {...register("content")} placeholder="Write your article here..." className={cn("min-h-[200px]", errors.content && "border-destructive focus-visible:ring-destructive")} />
+                        {errors.content && <p className="text-sm text-destructive">{errors.content.message}</p>}
                     </div>
                 </div>
 
@@ -217,16 +186,13 @@ export function ArticleForm() {
                         <Label className="text-lg font-semibold">Categories</Label>
                         <span className="text-sm text-muted-foreground">({selectedCategories.length}/5 selected)</span>
                     </div>
-                    <div className="space-y-2">
-                        <MultiSelectCategories options={categories} value={selectedCategories} onChange={categories => setValue("categories", categories, { shouldValidate: true })} placeholder="Search and select relevant categories..." maxCount={5} error={!!errors.categories} />
-                        {errors.categories && <p className="text-sm text-destructive flex items-center gap-1"><span className="h-1 w-1 bg-destructive rounded-full" />{errors.categories.message}</p>}
-                        <p className="text-xs text-muted-foreground">Select up to 5 categories from your database. Categories help readers discover your content.</p>
-                    </div>
+                    <MultiSelectCategories options={categories} value={selectedCategories} onChange={categories => setValue("categories", categories, { shouldValidate: true })} placeholder="Search and select categories..." maxCount={5} error={!!errors.categories} />
+                    {errors.categories && <p className="text-sm text-destructive">{errors.categories.message}</p>}
                 </div>
 
                 {/* Submit */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
-                    <Button type="button" variant="outline" className="flex-1" disabled={isPending} onClick={() => { reset(); setPreview(null); }}>
+                    <Button type="button" variant="outline" className="flex-1" disabled={isPending} onClick={() => reset()}>
                         Clear Form
                     </Button>
                     <Button type="submit" disabled={!isValid || isPending || selectedCategories.length === 0} className="flex-1 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
@@ -247,3 +213,12 @@ export function ArticleForm() {
         </div>
     )
 }
+
+
+/*
+
+Access key : Z80Xj2rkl0ZL4eRdz7AndfhrZa5IdS-3vIG7_BPOUCw
+Secret Key : Bn4brfq3TGaaxpSsJgGFUeE0oiPwX7pwdt-RSnmrmRw
+
+53593882-b944137b994529a155719b69d
+*/

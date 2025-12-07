@@ -22,38 +22,57 @@ export default function BlogPosts() {
 
     // Fetch posts from Prisma
     useEffect(() => {
-        async function fetchPosts() {
-            try {
-                const res = await fetch("/api/posts");
+        async function fetchDataWithCache() {
+            // 1. Try to get cached data
+            const cachedPosts = sessionStorage.getItem("blog_posts");
+            const cachedCategories = sessionStorage.getItem("blog_categories");
 
+            if (cachedPosts && cachedCategories) {
+                console.log("Loaded from cache");
+                setPosts(JSON.parse(cachedPosts));
+                setCategories(JSON.parse(cachedCategories));
+                return; // STOP — no fetching needed
+            }
+
+            console.log("Fetching from API...");
+
+            try {
+                // fetch posts
+                const res = await fetch("/api/posts");
                 const data = await res.json();
                 setPosts(data.posts || []);
-            } catch (error) {
-                console.log("Error fetching posts:", error);
-            }
-        }
+                sessionStorage.setItem("blog_posts", JSON.stringify(data.posts || []));
 
-        async function fetchCategories() {
-            try {
-                const res = await fetch("/api/categories");
-                const data = await res.json();
-                if (data.success) {
-                    const fetchedNames = data.categories.map((c: any) => c.name);
-                    setCategories(["All", ...fetchedNames]);
+                // fetch categories
+                const catRes = await fetch("/api/categories");
+                const catData = await catRes.json();
+
+                if (catData.success) {
+                    const fetchedNames = catData.categories.map((c: any) => c.name);
+                    const allCats = ["All", ...fetchedNames];
+
+                    setCategories(allCats);
+                    sessionStorage.setItem("blog_categories", JSON.stringify(allCats));
                 }
-            } catch (error) {
-                console.log("Error fetching categories:", error);
+            } catch (err) {
+                console.log("Error fetching:", err);
             }
         }
 
-        fetchPosts();
-        fetchCategories();
+        fetchDataWithCache();
     }, []);
+
 
     // Filter posts based on selected categories
     const filteredItems = selectedCategories.includes("All")
         ? posts
-        : posts.filter((post) => selectedCategories.includes(post.category));
+        : posts.filter((post) =>
+            post.categories?.some((c: any) =>
+                selectedCategories.includes(c.name)
+            )
+        );
+
+
 
     const visibleItems = filteredItems.slice(0, page * ITEMS_PER_PAGE);
 

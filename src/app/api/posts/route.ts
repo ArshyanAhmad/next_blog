@@ -95,12 +95,17 @@ export async function GET() {
                         email: true
                     }
                 },
-                categories: true,
+                categories: {
+                    select: {
+                        name: true
+                    }
+                }
             },
             orderBy: {
                 createdAt: 'desc'
             }
         });
+
 
         return NextResponse.json({
             success: true,
