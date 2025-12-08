@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import React from "react";
 
 export const BentoGrid = ({
     className,
@@ -25,12 +26,14 @@ export const BentoGridItem = ({
     description,
     header,
     icon,
+    children
 }: {
     className?: string;
     title?: string | React.ReactNode;
     description?: string | React.ReactNode;
     header?: React.ReactNode;
     icon?: React.ReactNode;
+    children?: React.ReactNode
 }) => {
     return (
         <div

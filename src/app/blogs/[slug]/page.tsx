@@ -1,9 +1,8 @@
+// app/blogs/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { PrismaClient } from "@/generated/prisma";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 type BlogSlugPageProps = {
     params: Promise<{ slug: string }>;
@@ -28,12 +27,13 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
             {post.coverImage && (
                 <div className="w-full rounded-xl overflow-hidden shadow-md mb-10">
                     <Image
-                        src={post.coverImage as string || "/fallback.jpg"}
+                        src={post.coverImage || "/fallback.jpg"}
                         width={1200}
                         height={600}
                         alt={post.title}
                         className="object-cover w-full h-[400px]"
                         priority
+                        fetchPriority="high"
                     />
                 </div>
             )}
@@ -42,12 +42,10 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
                 <div className="flex items-center gap-4">
                     <Avatar>
                         <AvatarImage src={post.author?.image || "/default-avatar.png"} />
-                        <AvatarFallback>{post.author?.name?.[0] || "A"}</AvatarFallback>
+                        <AvatarFallback className="capitalize font-bold">{post.author?.name?.[0] || "A"}</AvatarFallback>
                     </Avatar>
                     <div>
-                        <p className="font-semibold">
-                            {post.author?.name || "Unknown Author"}
-                        </p>
+                        <p className="font-semibold transform-stroke capitalize">{post.author?.name || "Unknown Author"}</p>
                         <p className="text-xs text-gray-500">
                             {new Date(post.createdAt).toLocaleDateString()}
                         </p>
@@ -58,13 +56,14 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
                     {post.categories.map((cat) => (
                         <span
                             key={cat.id}
-                            className="rounded bg-gray-100 px-2 py-0.5 text-xs text-blue-600"
+                            className="rounded  bg-gray-500 px-2 py-0.5 text-xs text-white"
                         >
                             {cat.name}
                         </span>
                     ))}
                 </div>
             </div>
+
 
             <article className="prose prose-lg dark:prose-invert max-w-none">
                 <div dangerouslySetInnerHTML={{ __html: post.content }} />

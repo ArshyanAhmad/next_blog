@@ -23,11 +23,23 @@ model User {
   role     Role      @default(USER)
   posts    Post[]
   comments Comment[]
+  likes    Like[]
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId]) // Prevent duplicate likes
 }
 
 model Post {
@@ -44,6 +56,7 @@ model Post {
   comments   Comment[]
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
+  likes      Like[]
 }
 
 model Category {

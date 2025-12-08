@@ -2,7 +2,7 @@ import { BlogCategorySection } from "./blog-category-section";
 import { TopAuthors } from "./marque-testimonial";
 import Newsletter from "../newsletter-section";
 import Footer from "../footer-section";
-import { BlogGrid } from "./blog-grid";
+import HeroBlogPosts from "./blog-grid";
 import Heading from "../main-heading";
 import HeroHome from "./hero-home";
 
@@ -18,7 +18,7 @@ export function HeroSection() {
             <Heading h1="Explore Recent Insights and Articles" text="Insights and strategies shaping the future of technology." />
 
             <div>
-                <BlogGrid />
+                <HeroBlogPosts />
             </div>
 
             <div>

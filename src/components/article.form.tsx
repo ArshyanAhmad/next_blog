@@ -80,6 +80,7 @@ export function ArticleForm() {
                 } else {
                     setSubmitMessage({ type: "error", text: result.message || "Failed to publish article" })
                 }
+
             } catch (error) {
                 console.error("Error publishing article:", error)
                 setSubmitMessage({ type: "error", text: "Network error. Please try again." })
