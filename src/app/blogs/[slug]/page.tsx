@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { prisma } from "@/lib/prisma";
+import { LikeButton } from "@/components/ui/LikeButton";
 
 type BlogSlugPageProps = {
     params: Promise<{ slug: string }>;
@@ -56,14 +57,15 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
                     {post.categories.map((cat) => (
                         <span
                             key={cat.id}
-                            className="rounded  bg-gray-500 px-2 py-0.5 text-xs text-white"
+                            className="rounded bg-gray-500 px-2 py-0.5 flex items-center justify-center text-xs text-white"
                         >
                             {cat.name}
                         </span>
                     ))}
+                    {/* Heart icon added right after categories */}
+                    <LikeButton />
                 </div>
             </div>
-
 
             <article className="prose prose-lg dark:prose-invert max-w-none">
                 <div dangerouslySetInnerHTML={{ __html: post.content }} />
@@ -71,3 +73,5 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
         </main>
     );
 }
+
+// Client component for the heart icon
