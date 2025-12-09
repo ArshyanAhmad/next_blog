@@ -1,9 +1,46 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ContactForm() {
+    const [form, setForm] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+    });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Check if all fields are filled
+        if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.message) {
+            toast.error("Please fill all fields");
+            return;
+        }
+
+        // Show success toast
+        toast.success("Message sent successfully!");
+        // Optionally, reset form after submission
+        setForm({
+            firstName: "",
+            lastName: "",
+            email: "",
+            phone: "",
+            message: "",
+        });
+    };
+
     return (
-        <div className="relative bg-white px-4  pb-6 sm:py-16 lg:px-6 min-h-screen flex items-center justify-center">
-            {/* Background Shape */}
+        <div className="relative bg-white px-4 pb-6 sm:py-16 lg:px-6 min-h-screen flex items-center justify-center">
             <div
                 aria-hidden="true"
                 className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -17,7 +54,6 @@ export default function ContactForm() {
                 ></div>
             </div>
 
-            {/* Form Container */}
             <div className="w-full max-w-lg bg-white shadow-md rounded-xl p-6 sm:p-7">
                 <h2 className="text-2xl font-semibold text-center text-gray-900 sm:text-3xl">
                     Contact Us
@@ -26,88 +62,82 @@ export default function ContactForm() {
                     We'd love to hear from you 👇
                 </p>
 
-                <form className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    {/* First Name */}
+                <form className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2" onSubmit={handleSubmit}>
                     <div>
-                        <label
-                            htmlFor="first-name"
-                            className="block text-sm font-medium text-gray-900"
-                        >
+                        <label htmlFor="first-name" className="block text-sm font-medium text-gray-900">
                             First Name
                         </label>
                         <input
                             id="first-name"
+                            name="firstName"
                             type="text"
+                            value={form.firstName}
+                            onChange={handleInputChange}
                             className="mt-1 w-full rounded-md border border-gray-300 px-2.5 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                             placeholder="John"
                         />
                     </div>
 
-                    {/* Last Name */}
                     <div>
-                        <label
-                            htmlFor="last-name"
-                            className="block text-sm font-medium text-gray-900"
-                        >
+                        <label htmlFor="last-name" className="block text-sm font-medium text-gray-900">
                             Last Name
                         </label>
                         <input
                             id="last-name"
+                            name="lastName"
                             type="text"
+                            value={form.lastName}
+                            onChange={handleInputChange}
                             className="mt-1 w-full rounded-md border border-gray-300 px-2.5 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                             placeholder="Doe"
                         />
                     </div>
 
-                    {/* Email */}
                     <div className="sm:col-span-2">
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-900"
-                        >
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-900">
                             Email
                         </label>
                         <input
                             id="email"
+                            name="email"
                             type="email"
+                            value={form.email}
+                            onChange={handleInputChange}
                             className="mt-1 w-full rounded-md border border-gray-300 px-2.5 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                             placeholder="you@example.com"
                         />
                     </div>
 
-                    {/* Phone Number */}
                     <div className="sm:col-span-2">
-                        <label
-                            htmlFor="phone"
-                            className="block text-sm font-medium text-gray-900"
-                        >
+                        <label htmlFor="phone" className="block text-sm font-medium text-gray-900">
                             Phone
                         </label>
                         <input
                             id="phone"
+                            name="phone"
                             type="tel"
+                            value={form.phone}
+                            onChange={handleInputChange}
                             className="mt-1 w-full rounded-md border border-gray-300 px-2.5 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                             placeholder="+91 98765 43210"
                         />
                     </div>
 
-                    {/* Message */}
                     <div className="sm:col-span-2">
-                        <label
-                            htmlFor="message"
-                            className="block text-sm font-medium text-gray-900"
-                        >
+                        <label htmlFor="message" className="block text-sm font-medium text-gray-900">
                             Message
                         </label>
                         <textarea
                             id="message"
+                            name="message"
                             rows={3}
+                            value={form.message}
+                            onChange={handleInputChange}
                             className="mt-1 w-full rounded-md border border-gray-300 px-2.5 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                             placeholder="Type your message..."
                         ></textarea>
                     </div>
 
-                    {/* Button */}
                     <div className="sm:col-span-2">
                         <button
                             type="submit"
@@ -118,6 +148,7 @@ export default function ContactForm() {
                     </div>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 }
