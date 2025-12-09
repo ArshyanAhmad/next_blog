@@ -91,54 +91,58 @@ BentoGridItem.displayName = "BentoGridItem";
 
 const ITEMS_PER_PAGE = 4;
 
+// Global cache to avoid refetching when navigating
+let globalCache = {
+    posts: null as Post[] | null,
+    categories: null as string[] | null,
+};
+
 export default function BlogPosts() {
-    const [posts, setPosts] = useState<Post[]>([]);
+    const [posts, setPosts] = useState<Post[]>(globalCache.posts || []);
     const [selectedCategories, setSelectedCategories] = useState<string[]>(["All"]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const observer = useRef<IntersectionObserver | null>(null);
-    const [categories, setCategories] = useState<string[]>(["All"]);
+    const [categories, setCategories] = useState<string[]>(globalCache.categories || ["All"]);
 
-    // Fetch posts and categories with caching
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
-            const cachedPosts = sessionStorage.getItem("blog_posts");
-            const cachedCategories = sessionStorage.getItem("blog_categories");
+            // Only fetch if cache is empty
+            if (!globalCache.posts || !globalCache.categories) {
+                const res = await fetch("/api/posts", { cache: "no-store" });
+                const data = await res.json();
+                globalCache.posts = data.posts || [];
+                setPosts(data.posts || []);
 
-            if (cachedPosts && cachedCategories) {
-                setPosts(JSON.parse(cachedPosts));
-                setCategories(JSON.parse(cachedCategories));
-                return;
-            }
+                const catRes = await fetch("/api/categories", { cache: "no-store" });
+                const catData = await catRes.json();
 
-            const res = await fetch("/api/posts");
-            const data = await res.json();
-            setPosts(data.posts || []);
-            sessionStorage.setItem("blog_posts", JSON.stringify(data.posts || []));
-
-            const catRes = await fetch("/api/categories");
-            const catData = await catRes.json();
-
-            if (catData.success) {
-                const fetchedNames = catData.categories.map((c: Category) => c.name);
-                const allCats = ["All", ...fetchedNames];
-                setCategories(allCats);
-                sessionStorage.setItem("blog_categories", JSON.stringify(allCats));
+                if (catData.success) {
+                    const fetchedNames = catData.categories.map((c: Category) => c.name);
+                    const allCats = ["All", ...fetchedNames];
+                    globalCache.categories = allCats;
+                    setCategories(allCats);
+                }
+            } else {
+                setPosts(globalCache.posts);
+                setCategories(globalCache.categories);
             }
         } catch (err) {
             console.log("Error fetching:", err);
         }
-    };
-
-    useEffect(() => {
-        fetchData();
     }, []);
 
-    const refreshData = () => {
-        sessionStorage.removeItem("blog_posts");
-        sessionStorage.removeItem("blog_categories");
+    // Fetch only on mount, not on every navigation
+    useEffect(() => {
         fetchData();
-    };
+    }, [fetchData]);
+
+    // Refetch all data (invalidate cache) - call this after creating a new post
+    const refreshData = useCallback(() => {
+        globalCache.posts = null;
+        globalCache.categories = null;
+        fetchData();
+    }, [fetchData]);
 
     const filteredItems = selectedCategories.includes("All")
         ? posts
