@@ -38,7 +38,7 @@ export function BlogCategorySection() {
                 const allPosts = postsData.posts ?? [];
 
                 // Show only the first 6 posts
-                const firstSixPosts = allPosts.slice(5, 9);
+                const firstSixPosts = allPosts.slice(4, 10);
 
                 setPosts(firstSixPosts);
                 sessionStorage.setItem("blog_posts", JSON.stringify(firstSixPosts));

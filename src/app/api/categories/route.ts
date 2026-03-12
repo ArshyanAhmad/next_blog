@@ -11,7 +11,7 @@ export async function GET() {
                 name: true,
                 _count: {
                     select: {
-                        posts: true // Count how many posts use this category
+                        posts: true
                     }
                 }
             },
